@@ -1,0 +1,17 @@
+{
+  "modid": "KorKeywordFix",
+  "name": "KOR Keyword Fix",
+  "author_list": [
+    "Celicath"
+  ],
+  "credits": "",
+  "description": "한국어 키워드를 더 보기 좋게 만듭니다.",
+  "version": "1.0.0",
+  "sts_version": "01-14-2020",
+  "mts_version": "3.7.0",
+  "dependencies": [
+  ],
+  "optional_dependencies": [
+    "basemod"
+  ]
+}
