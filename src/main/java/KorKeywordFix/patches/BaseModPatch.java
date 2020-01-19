@@ -1,14 +1,12 @@
 package KorKeywordFix.patches;
 
-import basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.FixDescriptionWidthCustomDynamicVariable;
-import basemod.patches.com.megacrit.cardcrawl.relics.AbstractRelic.MultiwordKeywords;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import javassist.CtBehavior;
 
-import static KorKeywordFix.patches.CardDescriptionPatch.tokenChar;
+import static KorKeywordFix.Utils.tokenChar;
 
 public class BaseModPatch {
 	@SpirePatch(cls = "basemod.patches.com.megacrit.cardcrawl.relics.AbstractRelic.MultiwordKeywords", method = "replaceMultiWordKeywords", optional = true)

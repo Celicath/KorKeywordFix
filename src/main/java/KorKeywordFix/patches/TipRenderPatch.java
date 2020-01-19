@@ -9,9 +9,11 @@ import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import javassist.CtBehavior;
 
-import static KorKeywordFix.patches.CardDescriptionPatch.tokenChar;
+import static KorKeywordFix.Utils.tokenChar;
 
 public class TipRenderPatch {
+	public static boolean activated = false;
+
 	@SpirePatch(
 			clz = FontHelper.class,
 			method = "renderSmartText",
@@ -29,38 +31,21 @@ public class TipRenderPatch {
 		private static String remaining = "";
 		private static float offset = 0;
 		private static GlyphLayout layout = new GlyphLayout();
-		private static int nextIndex = 0;
-		private static String[] split = null;
-
-		@SpirePrefixPatch
-		public static void Prefix(SpriteBatch sb, BitmapFont font, String msg, float x, float y, float lineWidth, float lineSpacing, Color baseColor) {
-			nextIndex = 0;
-			split = msg.split(" ");
-		}
-
-		@SpireInsertPatch(locator = TipIndexCounterLocator.class)
-		public static void IndexCounterInsert(SpriteBatch sb, BitmapFont font, String msg, float x, float y, float lineWidth, float lineSpacing, Color baseColor) {
-			nextIndex++;
-		}
 
 		@SpireInsertPatch(locator = TipPreLocator.class)
 		public static void PreInsert(SpriteBatch sb, BitmapFont font, String msg, float x, float y, float lineWidth, float lineSpacing, Color baseColor, @ByRef String[] ___word) {
-			if (split != null) {
-				int curIndex = nextIndex - 1;
-				if (split.length > curIndex && !split[curIndex].startsWith("#")) {
-					return;
-				}
-				if (split.length > nextIndex && split[nextIndex].startsWith(split[curIndex].substring(0, 2))) {
-					return;
-				}
+			String parent;
+			int tokenIndex = ___word[0].indexOf(tokenChar);
+
+			if (tokenIndex == -1 && !activated) {
+				return;
 			}
 
 			String lowerWord = ___word[0].replace(',', ' ').replace('.', ' ').trim().toLowerCase();
-			String parent = GameDictionary.parentWord.get(lowerWord);
-
-			int tokenIndex = ___word[0].indexOf(tokenChar);
 			if (tokenIndex != -1) {
 				parent = lowerWord.substring(0, tokenIndex + 1);
+			} else {
+				parent = GameDictionary.parentWord.get(lowerWord);
 			}
 
 			if (parent != null && lowerWord.startsWith(parent) && lowerWord.length() > parent.length()) {
@@ -89,15 +74,6 @@ public class TipRenderPatch {
 				remaining = "";
 				offset = 0;
 			}
-		}
-	}
-
-	private static class TipIndexCounterLocator extends SpireInsertLocator {
-		@Override
-		public int[] Locate(CtBehavior ctMethodToPatch) throws Exception {
-			Matcher finalMatcher = new Matcher.MethodCallMatcher(String.class, "equals");
-			int[] all = LineFinder.findAllInOrder(ctMethodToPatch, finalMatcher);
-			return new int[]{all[0]};
 		}
 	}
 

@@ -8,9 +8,9 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import javassist.CtBehavior;
 
-public class CardDescriptionPatch {
-	public static char tokenChar = '\u2028';
+import static KorKeywordFix.Utils.tokenChar;
 
+public class CardDescriptionPatch {
 	@SpirePatch(clz = AbstractCard.class, method = "initializeDescription")
 	public static class KORInitializeDescriptionPatch {
 		@SpireInsertPatch(locator = InitLocator.class)
