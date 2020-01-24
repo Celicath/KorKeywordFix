@@ -4,7 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.screens.SingleRelicViewPopup;
 import com.megacrit.cardcrawl.screens.charSelect.CharacterOption;
 import javassist.CannotCompileException;
@@ -51,6 +54,22 @@ public class RelicPatch {
 		@SpirePostfixPatch
 		public static void Postfix(SingleRelicViewPopup __instance, SpriteBatch sb) {
 			TipRenderPatch.activated = false;
+		}
+	}
+
+	@SpirePatch(clz = RewardItem.class, method = "render")
+	public static class KORRelicChestPatch {
+		@SpireInsertPatch(locator = RelicChestLocator.class)
+		public static void Insert(RewardItem __instance, SpriteBatch sb, ArrayList<PowerTip> ___tips) {
+			___tips.get(0).body = fixKorKeyword(___tips.get(0).body);
+		}
+
+		public static class RelicChestLocator extends SpireInsertLocator {
+			public int[] Locate(CtBehavior ctMethodToPatch) throws CannotCompileException, PatchingException {
+				Matcher finalMatcher = new Matcher.MethodCallMatcher(TipHelper.class, "queuePowerTips");
+
+				return LineFinder.findInOrder(ctMethodToPatch, new ArrayList<>(), finalMatcher);
+			}
 		}
 	}
 }
