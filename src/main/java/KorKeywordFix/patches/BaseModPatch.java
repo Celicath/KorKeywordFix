@@ -6,7 +6,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import javassist.CtBehavior;
 
-import static KorKeywordFix.Utils.tokenChar;
+import static KorKeywordFix.Utils.Utils.tokenChar;
 
 public class BaseModPatch {
 	@SpirePatch(cls = "basemod.patches.com.megacrit.cardcrawl.relics.AbstractRelic.MultiwordKeywords", method = "replaceMultiWordKeywords", optional = true)

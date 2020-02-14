@@ -6,7 +6,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.potions.AbstractPotion;
 import com.megacrit.cardcrawl.potions.StancePotion;
 
-import static KorKeywordFix.Utils.fixKorKeyword;
+import static KorKeywordFix.Utils.Utils.fixKorKeyword;
 
 public class PotionPatch {
 	@SpirePatch(

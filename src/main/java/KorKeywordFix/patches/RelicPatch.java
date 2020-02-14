@@ -15,7 +15,7 @@ import javassist.CtBehavior;
 
 import java.util.ArrayList;
 
-import static KorKeywordFix.Utils.fixKorKeyword;
+import static KorKeywordFix.Utils.Utils.fixKorKeyword;
 
 public class RelicPatch {
 	@SpirePatch(clz = AbstractRelic.class, method = "initializeTips")
