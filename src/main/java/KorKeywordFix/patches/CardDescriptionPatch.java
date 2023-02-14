@@ -50,7 +50,11 @@ public class CardDescriptionPatch {
 
 				if (keyword.equals(getParent(keyword)) && keyword.equals(getParent(keyword + words[nextIndex]))) {
 					___gl.width += (new GlyphLayout(FontHelper.cardDescFont_N, words[nextIndex])).width;
-					___word[0] += tokenChar + words[nextIndex];
+					if (___word[0].contains(":")) {
+						___word[0] += words[nextIndex];
+					} else {
+						___word[0] += tokenChar + words[nextIndex];
+					}
 					removeNext = true;
 				}
 			}
@@ -58,8 +62,12 @@ public class CardDescriptionPatch {
 
 		@SpireInsertPatch(locator = KeywordLocator.class)
 		public static void Insert(AbstractCard __instance, @ByRef String[] ___word, String ___keywordTmp) {
-			if (___keywordTmp != null && ___word[0].length() > ___keywordTmp.length() && ___word[0].startsWith(___keywordTmp)) {
-				___word[0] = ___word[0].substring(0, ___keywordTmp.length()) + tokenChar + ___word[0].substring(___keywordTmp.length());
+			if (___keywordTmp != null) {
+
+				String keywordWithoutPrefix = ___keywordTmp.substring(___keywordTmp.indexOf(':') + 1).replace(' ', '_');
+				if (___word[0].length() > keywordWithoutPrefix.length() && ___word[0].startsWith(keywordWithoutPrefix)) {
+					___word[0] = ___word[0].substring(0, keywordWithoutPrefix.length()) + tokenChar + ___word[0].substring(keywordWithoutPrefix.length());
+				}
 			}
 		}
 	}

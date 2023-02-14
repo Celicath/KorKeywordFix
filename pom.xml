@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>korkeywordfix</groupId>
     <artifactId>korkeywordfix</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
     <name>KOR Keyword Fix</name>
@@ -52,7 +52,7 @@
                         <configuration>
                             <target>
                                 <copy file="target/KorKeywordFix.jar"
-                                      tofile="D:\Steam\steamapps\common\SlayTheSpire\mods\KorKeywordFix.jar"/>
+                                      tofile="C:\Program Files (x86)\Steam\steamapps\common\SlayTheSpire\mods\KorKeywordFix.jar"/>
                             </target>
                         </configuration>
                         <goals>
