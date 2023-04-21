@@ -19,7 +19,7 @@ public class BaseModPatch {
 		}
 	}
 
-	@SpirePatch2(cls = "basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.FixDescriptionWidthCustomDynamicVariable", method = "Insert", optional = true)
+	@SpirePatch2(cls = "basemod.patches.com.megacrit.cardcrawl.cards.AbstractCard.FixDescriptionWidthCustomDynamicVariable", method = "uniqueKeywords", optional = true)
 	public static class KORBaseModPatch2 {
 		@SpireInsertPatch(locator = BaseModPatchLocator.class)
 		public static void Insert(String[] word) {
